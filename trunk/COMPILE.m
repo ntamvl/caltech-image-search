@@ -1,3 +1,4 @@
+% COMPILE compiles the mex files
 
 % Author: Mohamed Aly <malaa@vision.caltech.edu>
 % Date: October 6, 2010
