@@ -579,15 +579,17 @@ void Hkms<T>::getLeafIds(Data<T> &data, HkmClassId *cids)
 //-----------------------------------------------------------------------
 /// get leaf ids for input data
 template <class T>
-HkmClassId Hkm<T>::getLeafId(Data<T> &data, uint pid, HkmNodeId sleaf, HkmNodeId pleaf, 
-        HkmOptions& opt)
+HkmClassId Hkm<T>::getLeafId(Data<T> &data, uint pid, HkmNodeId sleaf, 
+        HkmNodeId pleaf, HkmOptions& opt)
 {
   //get the class id for this point
   HkmClassId cid;
   HkmNodeId  nodeId = this->descend(this->getRootId(), data, pid, cid, 
           0, opt, 0);
+  int depth = this->getDepth(nodeId);
+//   cout << "nodeId:" << nodeId << ", depth:" << depth << ", levels:" << this->opt.nlevels << ",";
   //get the deepest child for nodeId on the last level
-  if (this->getDepth(nodeId)+1 < this->opt.nlevels)
+  if (depth+1 < this->opt.nlevels)
   {
     nodeId = this->getDeepChildId(this->getChildId(nodeId) + cid - 1);
     cid = 0;
@@ -597,6 +599,7 @@ HkmClassId Hkm<T>::getLeafId(Data<T> &data, uint pid, HkmNodeId sleaf, HkmNodeId
 //    if (cid > 0)
 //    {
   cid += (nodeId - pleaf) * opt.nbranches;
+//   cout << "nodeId:" << nodeId << ", pleaf:" << pleaf << ", cid: " << cid << endl;
 //    cid = this->getChildId(nodeId) + cid - 1;
 //    }
 

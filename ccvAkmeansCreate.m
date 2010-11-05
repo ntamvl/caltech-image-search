@@ -9,16 +9,15 @@ function [akmeans] = ccvAkmeansCreate(data, k, maxiter, type, ntrees, ...
 % data        - the input data, with one column per data point
 % k           - the number of means required
 % maxiter     - [1000] max number of iterations to go for
-% type        - ['kdtree'] the type of Kdtree implementation to use
-%               'kdtree' -> use ccvKdtree* functions
-%               'flann'  -> use FLANN functions
+% type        - ['kdt'] the type of Kdtree implementation to use
+%               'kdt'    -> use ccvKdt* functions
 % ntrees      - [1] the number of trees to generate
-% varrange    - [0] the range of variance to choose for when randomizing
+% varrange    - [0.8] the range of variance to choose for when randomizing
 % meanrange   - [0] the range of mean to choose for when randomizing
 % maxdepth    - [0] the maximum depth of the tree, unlimited if 0 or empty
 % minvar      - [0] the minimum variance that must be there to split the
 %               node
-% cycle       - [1] whether to cycle through dimensions before repeating (1),
+% cycle       - [0] whether to cycle through dimensions before repeating (1),
 %               or reuse them regardless (0)
 % dist        - ['l2'] the distance function to use
 %               'hamming' -> hamming distance
@@ -26,24 +25,25 @@ function [akmeans] = ccvAkmeansCreate(data, k, maxiter, type, ntrees, ...
 %               'l2'      -> L2 euclidean distance
 %               'arccos'  -> arccos distance
 %               'cos'     -> cosine distance
-% maxbins     - [0] the maximum number of bins to consider. It looks up
+%               'xor'     -> hamming distance for packed binary inputs
+% maxbins     - [25] the maximum number of bins to consider. It looks up
 %               in the set of trees and adds branches in a priority queue
 %               for all trees, ranked according to their distance from the
 %               decision boundary, and then expands them in turn. If "0",
 %               the default is the number of trees.
-% sample      - [0] the size of the random sample to use to get the mean
+% sample      - [200] the size of the random sample to use to get the mean
 %               and variance estimate at each node. 0 means don't sample
-% mex         - [0] use the mex interface instead of the matlab interface
+% mex         - [1] use the mex interface instead of the matlab interface
 % matlabout   - [1] use the matlab output or the mex output if using the
 %               mex interface i.e. return the kdt as a matlab array of
 %               nodes or return the pointers
-% verbose     - [0] print messages or not
+% verbose     - [1] print messages or not
 % 
 % Outputs:
 % --------
 % akmeans     - the return structure
 %
-% See also CCVAKMEANSLOOKUP, CCVKDTREECREATE
+% See also CCVAKMEANSLOOKUP, CCVAKMEANSCLEAN, CCVKDTCREATE, CCVBOWGETDICT
 %
 
 % Author: Mohamed Aly <malaa@vision.caltech.edu>
@@ -51,16 +51,16 @@ function [akmeans] = ccvAkmeansCreate(data, k, maxiter, type, ntrees, ...
 
 
 if nargin<3 || isempty(maxiter),    maxiter = 1000;   end;
-if nargin<4 || isempty(type),       type = 'kdtree';  end;
+if nargin<4 || isempty(type),       type = 'kdt';  end;
 if nargin<5 || isempty(ntrees),     ntrees = 1;       end;
-if nargin<6 || isempty(varrange),   varrange = 0;     end;
+if nargin<6 || isempty(varrange),   varrange = 0.8;     end;
 if nargin<7 || isempty(meanrange),  meanrange = 0;    end;
 if nargin<8 || isempty(maxdepth),   maxdepth = 0;     end;
 if nargin<9 || isempty(minvar),     minvar = 0;       end;
-if nargin<10 || isempty(cycle),     cycle = 1;       end;
+if nargin<10 || isempty(cycle),     cycle = 0;       end;
 if nargin<11 || isempty(dist),      dist = 'l2';      end;
-if nargin<12 || isempty(maxbins),   maxbins = ntrees; end;
-if nargin<13 || isempty(sample),    sample = 0;       end;
+if nargin<12 || isempty(maxbins),   maxbins = 25; end;
+if nargin<13 || isempty(sample),    sample = 200;       end;
 if nargin<14 || isempty(mex),       mex = 1;          end;
 if nargin<15 || isempty(matlabout), matlabout = 0;    end;
 if nargin<17 || isempty(verbose), 	verbose = 1;      end;
@@ -170,14 +170,6 @@ while cont && iter<=maxiter
   %get rkdtrees for the means
   nntic = tic;
   switch type
-    case 'kdtree'
-      %create      
-      kdt = ccvKdtreeCreate(means, ntrees, varrange, meanrange, ...
-        maxdepth, minvar, cycle, dist, maxbins, sample, mex, matlabout, ...
-        0);
-      %lookup and get nearest mean to every point
-      [ids] = ccvKdtreeLookup(kdt, means, data, 1);
-
     case 'kdt'
       if ~parallel
         %create      
@@ -277,12 +269,8 @@ while cont && iter<=maxiter
   if verbose, fprintf('dist=%f, total %.2f min %s\n', mdist(iter), toc(ittic)/60, datestr(now)); end;
   
   %check if done
-  if iter>1 && abs(mdist(iter)-mdist(iter-1))<=1e-4
+  if (iter>1 && abs(mdist(iter)-mdist(iter-1))<=1e-4) || iter==maxiter
     cont = 0;
-%   diff(iter) = sqrt(sum(sum((means-oldmeans).^2)))/k;
-%   if diff(iter) < 1e-10 || iter+1>maxiter%sum(oldids - ids)==0 
-%     cont = 0;
-    
   
   else
     %save to oldmeans
@@ -290,7 +278,6 @@ while cont && iter<=maxiter
     %clear the kdtree
     if ~parallel
       switch type
-        case 'kdtree', 	ccvKdtreeClean(kdt);
         case 'kdt',     ccvKdtClean(kdt);
         case 'flann',   flann_free_index(kdt.flann);
       end;
@@ -302,8 +289,6 @@ while cont && iter<=maxiter
     end;
   end; 
   
-%   if verbose, fprintf('  diff = %f\n', diff(iter)); end;
-  
   %inc iteration
   iter = iter + 1;  
 end; %while
@@ -311,7 +296,6 @@ end; %while
 %build final if parallel
 if parallel
   switch type
-    case 'kdtree', 	ccvKdtreeClean(kdt);
     case 'kdt',      
       kdt = ccvKdtCreate(means, ntrees, varrange, meanrange, ...
           maxdepth, minvar, cycle, dist, maxbins, sample);
