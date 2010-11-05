@@ -1,4 +1,5 @@
 function DEMO
+% DEMO a demo script to show typical usage
 
 % Author: Mohamed Aly <malaa@vision.caltech.edu>
 % Date: October 6, 2010
