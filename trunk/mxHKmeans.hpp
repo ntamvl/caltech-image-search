@@ -265,6 +265,9 @@ Hkms<T>* importMatlab(const mxArray* in, T dummy)
     Hkm<T>& hkm = hkms->hkms[t];
     //resize
     hkm.resize(nnodes);
+    //set opt
+    hkm.opt = opt;
+//     cout << "opt.nlevels:" << hkm.opt.nlevels << ", orig:" << opt.nlevels << endl;
 
     mxArray* a;
 

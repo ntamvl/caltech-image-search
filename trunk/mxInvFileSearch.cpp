@@ -7,31 +7,11 @@
 #include <cassert>
 #include <cstring>
 #include <climits>
+
 #include "ccInvertedFile.hpp"
+#include "mxInvFile.hpp"
 #include "mxData.hpp"
 #include "mxCommon.hpp"
-
-// //Matlab types
-// #define TYPEOF_mxSINGLE_CLASS   float
-// #define TYPEOF_mxDOUBLE_CLASS   double
-// #define TYPEOF_mxINT8_CLASS     char
-// #define TYPEOF_mxUINT8_CLASS    unsigned char
-// #define TYPEOF_mxINT32_CLASS    int
-// #define TYPEOF_mxUINT32_CLASS   unsigned int
-// 
-// 
-// //creates a switch statement with fun in every statement using "var"
-// //as the class ID. "fun" is another macro that takes the class ID.
-// #define __SWITCH(var,fun)                               \
-//   switch(var)                                           \
-//   {                                                     \
-//     case mxSINGLE_CLASS:  fun(mxSINGLE_CLASS)  break;   \
-//     case mxDOUBLE_CLASS:  fun(mxDOUBLE_CLASS)  break;   \
-//     case mxINT8_CLASS:    fun(mxINT8_CLASS)    break;   \
-//     case mxUINT8_CLASS:   fun(mxUINT8_CLASS)   break;   \
-//     case mxINT32_CLASS:   fun(mxINT32_CLASS)   break;   \
-//     case mxUINT32_CLASS:  fun(mxUINT32_CLASS)  break;   \
-//   }                                                     
 
 //inputs
 #define ivFileIn  prhs[0]
@@ -45,14 +25,12 @@
 //outputs          
 #define docsOut   plhs[0]
 #define scoresOut plhs[1]
-          
-         
 
 void mexFunction( int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
 {
    
-  if (nrhs!=8)	mexErrMsgTxt("Seven inputs required");
+  if (nrhs!=8)	mexErrMsgTxt("Eight inputs required");
 
   //get the class of points
   mxClassID classID = mxGetClassID(dataIn);
@@ -70,6 +48,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
   
   //number of documents
   uint ndocs = mxIsCell(dataIn) ? mxGetNumberOfElements(dataIn) : 1;
+//   cout << "ndocs: " << ndocs << endl;
   
   //number of returns
   uint nret = 0;
@@ -81,39 +60,15 @@ void mexFunction( int nlhs, mxArray *plhs[],
   
   //verbose?
   bool verbose = (bool) *mxGetPr(verboseIn);  
+  
   //get the weighting to use
-  char s[500];
-  mxGetString(wtIn, s, 500);
-  string str = s;
-  ivFile::Weight wt;
-  if (str == "none")        wt = ivFile::WEIGHT_NONE;
-  else if (str == "bin")    wt = ivFile::WEIGHT_BIN;
-  else if (str == "tf")     wt = ivFile::WEIGHT_TF;
-  else if (str == "tfidf")  wt = ivFile::WEIGHT_TFIDF;
-  else                      mexErrMsgTxt("Unknown weighting function");
+  ivFile::Weight wt = getInvFileWeight(wtIn);
   
   //get the normalization to use
-  mxGetString(normIn, s, 500);
-  str = s;
-  ivFile::Norm norm;
-  if (str == "none")       norm = ivFile::NORM_NONE;
-  else if (str == "l0")    norm = ivFile::NORM_L0;
-  else if (str == "l1")    norm = ivFile::NORM_L1;
-  else if (str == "l2")    norm = ivFile::NORM_L2;
-  else                     mexErrMsgTxt("Unknown normalization function");
+  ivFile::Norm norm = getInvFileNorm(normIn);
   
   //get the distance to use
-  mxGetString(distIn, s, 500);
-  str = s;
-  ivFile::Dist dist;
-  if (str == "l1")        dist = ivFile::DIST_L1;
-  else if (str == "l2")   dist = ivFile::DIST_L2;
-  else if (str == "ham")  dist = ivFile::DIST_HAM;
-  else if (str == "kl")   dist = ivFile::DIST_KL;
-  else if (str == "cos")  dist = ivFile::DIST_COS;
-  else if (str == "jac")  dist = ivFile::DIST_JAC;
-  else if (str == "hist-int")  dist = ivFile::DIST_HISTINT;
-  else                    mexErrMsgTxt("Unknown distance function");
+  ivFile::Dist dist = getInvFileDist(distIn);
 
   //make the ivFile object  
   ivFile* ivfile = *(ivFile**)mxGetData(ivFileIn);
@@ -135,7 +90,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
     Data<TYPEOF_##CLASS> data;                                            \
     /*set data*/                                                          \
     fillData(data, dataIn);                                               \
-    /*insert*/                                                            \
+    /*search*/                                                            \
     ivSearchFile(*ivfile, data, wt, norm, dist, overlapOnly, nret,        \
             scorelists, verbose);                                         \
     /*clear data*/                                                        \

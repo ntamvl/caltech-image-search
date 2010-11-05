@@ -17,7 +17,6 @@ function akmeans = ccvAkmeansClean(akmeans)
 
 %clear the kdtree
 switch akmeans.type
-  case 'kdtree', 	ccvKdtreeClean(akmeans.kdt);
   case 'kdt',     ccvKdtClean(akmeans.kdt);
   case 'flann',   flann_free_index(akmeans.kdt.flann);
 end;
