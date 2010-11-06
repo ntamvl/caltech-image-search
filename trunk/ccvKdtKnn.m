@@ -23,7 +23,7 @@ function [ids, dists] = ccvKdtKnn(kdt, kdtData, sData, k, tData)
 % See also ccvKdtClean ccvKdtCreate
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %defaults

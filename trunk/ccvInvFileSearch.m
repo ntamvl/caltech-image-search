@@ -46,7 +46,7 @@ function [ids dists] = ccvInvFileSearch(ivf, data, weight, norm, dist, nret, ...
 % ccvInvFileClean ccvInvFileCompStats
 %
   
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
  
 if ~exist('weight','var') || isempty(weight), weight = 'none'; end;

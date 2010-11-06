@@ -15,7 +15,7 @@ function [ids, dists] = ccvAkmeansLookup(akmeans, searchdata)
 % See also CCVAKMEANSCREATE, CCVKDTREECREATE, CCVKDTREELOOKUP
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 ids = [];

@@ -22,7 +22,7 @@ function dists = ccvDistance(data1, data2, dist, mex)
 %
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if nargin<3 || isempty(dist),   dist = 'l2'; end;

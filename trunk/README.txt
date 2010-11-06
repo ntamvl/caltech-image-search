@@ -169,7 +169,7 @@ See the demo file DEMO.m for example usages.
  CONTACT
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Mohamed Aly <malaa@vision.caltech.edu>
+Mohamed Aly <malaa at vision d0t caltech d0t edu>
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  REFERENCE

@@ -15,7 +15,7 @@ function ccvLshInsert(lsh, points, idshift)
 % See also ccvLshClean ccvLshCreate ccvLshLoad ccvLshSave ccvLshSearch
 % ccvLshBucketId ccvLshFuncVal ccvLshStats ccvLshBucketPoints ccvLshKnn
  
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if ~exist('idshift','var') || isempty(idshift), idshift = 0; end;

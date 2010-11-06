@@ -19,7 +19,7 @@ function ivf = ccvInvFileInsert(ivf, data, nwords, idshift)
 % ccvInvFileClean ccvInvFileSearch
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if ~exist('ivf','var') || isempty(ivf), ivf = 0; end;

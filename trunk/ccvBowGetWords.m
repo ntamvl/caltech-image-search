@@ -16,7 +16,7 @@ function dwords = ccvBowGetWords(words, data, locs, gws)
 % See also ccvBowGetDict
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 

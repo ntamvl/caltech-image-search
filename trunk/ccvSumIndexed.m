@@ -17,7 +17,7 @@ function [dsum, dhist] = ccvSumIndexed(data, ids, k)
 % See also 
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %check class of ids
