@@ -28,7 +28,7 @@ function kdt = ccvKdtCreate(data, ntrees, varrange, meanrange, maxdepth, ...
 % See also ccvKdtClean ccvKdtKnn
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %defaults

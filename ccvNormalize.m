@@ -15,7 +15,7 @@ function ndata = ccvNormalize(data, type, mx)
 % 
 % See also ccvNorm
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if nargin<2, type = 'l2'; end;

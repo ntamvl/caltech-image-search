@@ -21,7 +21,7 @@ function [rids, dists, inliers] = ccvBowSpCheck(testLocs, testWords, ...
 % See also ccvRansacAffine
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 nids = length(ids);

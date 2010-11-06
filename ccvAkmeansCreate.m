@@ -46,7 +46,7 @@ function [akmeans] = ccvAkmeansCreate(data, k, maxiter, type, ntrees, ...
 % See also CCVAKMEANSLOOKUP, CCVAKMEANSCLEAN, CCVKDTCREATE, CCVBOWGETDICT
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 

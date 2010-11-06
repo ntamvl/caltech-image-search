@@ -48,7 +48,7 @@ function lsh = ccvLshCreate(ntables, nfuncs, htype, dist, norm, ndims, ...
 % See also ccvLshClean ccvLshInsert ccvLshLoad ccvLshSave ccvLshSearch
 % ccvLshBucketId ccvLshFuncVal ccvLshStats ccvLshBucketPoints ccvLshKnn
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if ~exist('ntables','var') || isempty(ntables), ntables = 1; end;

@@ -20,7 +20,7 @@ function vals = ccvLshFuncVal(lsh, points, cellout)
 % See also ccvLshClean ccvLshCreate ccvLshInsert ccvLshLoad ccvLshSave
 % ccvLshSearch ccvLshBucketId ccvLshStats ccvLshBucketPoints ccvLshKnn
  
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if ~exist('cellout','var') || isempty(cellout), cellout = 0; end;

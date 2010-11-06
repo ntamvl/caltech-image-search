@@ -26,7 +26,7 @@ function [ids, dists] = ccvKnn(data1, data2, k, dist, mex)
 %
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 if nargin<4 || isempty(dist),   dist = 'l2'; end;

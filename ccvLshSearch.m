@@ -18,7 +18,7 @@ function ids = ccvLshSearch(lsh, points, nret)
 % See also ccvLshClean ccvLshCreate ccvLshInsert ccvLshLoad ccvLshSave
 % ccvLshBucketId ccvLshFuncVal ccvLshStats ccvLshBucketPoints ccvLshKnn
  
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %default

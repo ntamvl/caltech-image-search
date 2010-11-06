@@ -11,7 +11,7 @@ function ccvKdtClean(kdt)
 % See also ccvKdtKnn ccvKdtCreate
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %call the mex file

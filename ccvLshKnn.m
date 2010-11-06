@@ -22,7 +22,7 @@ function [ids, dists] = ccvLshKnn(lsh, lshData, sData, k, dist)
 % ccvLshBucketId ccvLshFuncVal ccvLshStats ccvLshSearch ccvLshBucketPoints
 %
 
-% Author: Mohamed Aly <malaa@vision.caltech.edu>
+% Author: Mohamed Aly <malaa at vision d0t caltech d0t edu>
 % Date: October 6, 2010
 
 %default
